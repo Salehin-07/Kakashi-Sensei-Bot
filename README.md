@@ -25,7 +25,18 @@
 ### Add to Your Server
 [![Invite Bot](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4QwbkUJoui5W95abZaxCiJlyvErxYZLVSiA&usqp=CAU)](https://discord.com/oauth2/authorize?client_id=1386331041782042735&permissions=0&integration_type=0&scope=bot)
 
-**Click on the Logo. **
+### Add Manually 
+
+- Copy this link and peste it in your browser
+
+```
+https://discord.com/oauth2/authorize?client_id=1386331041782042735&permissions=0&integration_type=0&scope=bot
+```
+- Go to our website
+
+```
+```
+
 ### Basic Commands
 ```
 %start          - Begin anime monitoring
