@@ -758,11 +758,16 @@ async def fetch_recent_episodes():
     global last_seen_titles, notification_channel
 
     apis = [
-        {"name": "Current Season", "url": "https://api.jikan.moe/v4/seasons/now",
-        "key": "data"},
-        {"name": "Currently Airing",
-         "url": "https://api.jikan.moe/v4/top/anime?filter=airing&limit=10",
-         "key": "data"}
+        {
+            "name": "Current Season",
+            "url": "https://api.jikan.moe/v4/seasons/now",
+            "key": "data"
+        },
+        {
+            "name": "Currently Airing",
+            "url": "https://api.jikan.moe/v4/top/anime?filter=airing&limit=25",
+            "key": "data"
+        }
     ]
 
     async with aiohttp.ClientSession() as session:
