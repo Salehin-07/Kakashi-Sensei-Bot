@@ -1,148 +1,186 @@
-# 🎌 Anime Release Tracker Bot
+# 🍥 Kakashi Sensei Bot
 
-A Discord bot that automatically tracks and notifies you about recent anime episode releases and updates using the MyAnimeList (Jikan) API.
+<div align="center">
+  <h3>🎌 Your Ultimate Anime Notification Companion</h3>
+  <p><em>Stay updated with the latest anime episodes automatically delivered to your Discord server!</em></p>
+</div>
 
-## ✨ Features
+---
 
-- **Real-time Anime Tracking**: Monitors current season and airing anime
-- **Smart Notifications**: Sends rich embeds with anime details when new episodes are detected
-- **Multiple Data Sources**: Uses both current season and top airing anime endpoints for comprehensive coverage
-- **Rate Limit Compliant**: Respects Jikan API rate limits with 60-minute check intervals
-- **Customizable Notifications**: Set specific channels for anime update notifications
-- **Easy Management**: Simple commands to start, stop, and monitor the bot
+## 📖 About
+
+**Kakashi Sensei Bot** is a sophisticated Discord bot that keeps your server updated with the latest anime releases from MyAnimeList. Named after the legendary Copy Ninja himself, this bot efficiently tracks currently airing anime and delivers beautiful notifications directly to your Discord channels.
+
+### ✨ Key Features
+
+- 🔄 **Automatic Updates**: Hourly checks for new anime episodes
+- 📺 **Real-time Notifications**: Beautiful embed messages with anime details
+- 🎯 **Smart Filtering**: Only notifies about genuinely new content
+- 🌐 **Reliable Data Source**: Powered by Jikan API (MyAnimeList)
+- ⚡ **Fast & Efficient**: Optimized for minimal resource usage
+- 🛡️ **Professional Web Interface**: Complete with Terms of Service and Privacy Policy
 
 ## 🚀 Quick Start
 
 ### Add to Your Server
-[**Click here to add the bot to your Discord server**](https://discord.com/oauth2/authorize?client_id=1385824059844984832&permissions=0&integration_type=0&scope=bot)
+[![Invite Bot](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4QwbkUJoui5W95abZaxCiJlyvErxYZLVSiA&usqp=CAU)](https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=2048&scope=bot)
 
-### Basic Usage
-Once the bot is in your server:
+### Basic Commands
+```
+%start          - Begin anime monitoring
+%stop           - Stop anime monitoring
+%status         - Check bot status
+%setchanel     - Set notification channel
+%test           - Test API connection
+%clear          - Clear anime cache
+%delete [number] - Delete bot messages
+%hello          - Simple greeting
+%help           - To review commands 
+```
 
-1. **Start tracking**: `&start` - Begin monitoring anime releases
-2. **Set notification channel**: `&setchannel` - Set current channel for notifications
-3. **Check status**: `&status` - View bot status and tracking information
-4. **Stop tracking**: `&stop` - Stop the anime monitoring service
+## 📋 Prerequisites
 
-## 🛠️ Self-Hosting Setup
-
-### Prerequisites
-- Python 3.8+
+- Python 3.8 or higher
 - Discord Bot Token
-- Required Python packages (see requirements below)
+- Basic understanding of Discord bot hosting
 
-### Installation
+## 🛠️ Installation & Setup
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Salehin-07/GhostAnime.git
-   cd GhostAnime
-   ```
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Salehin-07/Kakashi-Sensei-Bot.git
+cd Kakashi-Sensei-Bot
+```
 
-2. **Install dependencies**
-   ```bash
-   pip install discord.py python-dotenv aiohttp flask
-   ```
+### 2. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
 
-3. **Environment Configuration**
-   Create a `.env` file in the project root:
-   ```env
-   DISCORD_TOKEN=your_discord_bot_token_here
-   ```
+### 3. Environment Configuration
+Create a `.env` file in the root directory:
+```env
+DISCORD_TOKEN=your_discord_bot_token_here
+```
 
-4. **Run the bot**
-   ```bash
-   python main.py
-   ```
-
-### Getting a Discord Bot Token
-1. Go to the [Discord Developer Portal](https://discord.com/developers/applications)
+### 4. Discord Bot Setup
+1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
 2. Create a new application
-3. Go to the "Bot" section
-4. Create a bot and copy the token
-5. Add the token to your `.env` file
+3. Navigate to the "Bot" section
+4. Copy the bot token and add it to your `.env` file
+5. Enable necessary intents (Message Content Intent)
 
-## 📋 Commands
+### 5. Run the Bot
+```bash
+python main.py
+```
 
-| Command | Description |
-|---------|-------------|
-| `&start` | Start the anime release checker |
-| `&stop` | Stop the anime release checker |
-| `&status` | Display bot status and statistics |
-| `&setchannel` | Set current channel for notifications |
-| `&test` | Test API connection |
-| `&clear` | Clear tracking cache |
-| `&help` | Show available commands |
+## 🌐 Web Interface
 
-## 🔧 Technical Details
+The bot includes a professional Flask web interface accessible at:
+- **Homepage**: Information about the bot and features
+- **Invite Page**: Direct bot invitation link
+- **Terms of Service**: Legal compliance
+- **Privacy Policy**: Data handling transparency
 
-### Architecture
-- **Discord.py**: Main bot framework
-- **Flask**: Web server for hosting (keeps bot alive on free hosting platforms. If using paid service remove the flask part.)
-- **Jikan API**: MyAnimeList API for anime data
-- **Async/Await**: Non-blocking operations for better performance
+## 📁 Project Structure
 
-### Data Sources
-- **Current Season Anime**: Latest seasonal releases
-- **Top Airing Anime**: Currently broadcasting shows
-- **Rate Limiting**: 60-minute intervals to respect API limits(change according to your wish, default=60 minutes)
+```
+Kakashi-Sensei-Bot/
+├── main.py              # Main bot script
+├── requirements.txt     # Python dependencies
+├── .env                # Environment variables (create this)
+├── README.md           # Project documentation
+└── .gitignore          # Git ignore file
+```
 
-### Features
-- **Smart Duplicate Detection**: Prevents spam notifications
-- **Rich Embeds**: Beautiful notification format with anime details
-- **Error Handling**: Robust error management and recovery
-- **Configurable**: Easy to modify check intervals and data sources
+## 🔧 Configuration
 
-## 🌐 API Information
+### Bot Permissions Required
+- Send Messages
+- Embed Links
+- Read Message History
+- Use Slash Commands (optional)
 
-This bot uses the [Jikan API](https://jikan.moe/), an unofficial MyAnimeList API that provides:
-- No authentication required
-- Comprehensive anime database
-- Real-time airing information
-- Rate limiting: 3 requests per second, 60 per minute
+### API Rate Limits
+The bot respects Jikan API rate limits:
+- 1 request per second
+- 60 requests per minute
+- Built-in retry mechanisms
+
+## 📊 Usage Examples
+
+### Starting Anime Monitoring
+```
+%start
+```
+Bot will begin monitoring and send notifications to the current channel.
+
+### Setting Custom Channel
+```
+%setchannel
+```
+Use this command in the channel where you want notifications.
+
+### Checking Status
+```
+%status
+```
+View current bot status, tracked anime count, and settings.
+
+## 🚀 Deployment
+
+### Render Deployment
+1. Fork this repository
+2. Connect your GitHub account to [Render](https://render.com)
+3. Create a new Web Service
+4. Set environment variables in Render dashboard
+5. Deploy automatically from GitHub
+
+### Environment Variables for Production
+```env
+DISCORD_TOKEN=your_production_bot_token
+PYTHON_VERSION=3.9.0
+```
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome! Please follow these steps:
 
-### Development Setup
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+## 🐛 Bug Reports & Feature Requests
 
-This project is open source and available under the [MIT License](LICENSE).
+Please use the [GitHub Issues](https://github.com/Salehin-07/Kakashi-Sensei-Bot/issues) page to:
+- Report bugs
+- Request new features
+- Ask questions
+- Provide feedback
 
-## 🙋‍♂️ Support
+## 📄 License
 
-If you encounter any issues or have questions:
-- Open an issue on GitHub
-- Check the [Jikan API documentation](https://docs.api.jikan.moe/)
-- Review the Discord.py documentation
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Salehin-07/Kakashi-Sensei-Bot/blob/main/LICENSE) file for details.
 
-## 🎯 Roadmap
+## 📞 Support
 
-- [ ] Add support for manga updates
-- [ ] Implement user-specific watchlists
-- [ ] Add more customization options
-- [ ] Include streaming platform links
-- [ ] Add search functionality for specific anime
-
-## 👨‍💻 Author
-
-**Salehin-07**
-- GitHub: [https://github.com/Salehin-07](https://github.com/Salehin-07)
+- **GitHub Issues**: [Report Issues](https://github.com/Salehin-07/Kakashi-Sensei-Bot/issues)
+- **Discord**: Join our support server (coming soon)
+- **Email**: Available through GitHub profile
 
 ## 🙏 Acknowledgments
 
-- [Jikan API](https://jikan.moe/) for providing free MyAnimeList data
-- [Discord.py](https://discordpy.readthedocs.io/) for the excellent Discord library
-- MyAnimeList for the comprehensive anime database
-- Myself for creating it.
+- **Jikan API**: For providing reliable MyAnimeList data
+- **Discord.py**: For the excellent Discord bot framework
+- **MyAnimeList**: For comprehensive anime database
+- **Render**: For reliable hosting platform
 
 ---
 
-⭐ **Star this repository if you found it helpful!**
+<div align="center">
+  <p>Made with ❤️ by <a href="https://github.com/Salehin-07">Salehin-07</a></p>
+  <p><em>"A true ninja never reveals all their techniques at once." - Kakashi Hatake</em></p>
+</div>
