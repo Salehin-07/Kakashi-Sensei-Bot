@@ -166,7 +166,7 @@ notification_channel = None
 
 def get_channel_display(channel):
     return "📩 Direct Message" if isinstance(channel, discord.DMChannel) else channel.mention
-
+9
 async def fetch_recent_episodes():
     global last_seen_titles, notification_channel
 
@@ -307,9 +307,10 @@ async def on_command_error(ctx, error):
 
 # Run app + bot
 if __name__ == "__main__":
-    import threading
-    threading.Thread(target=lambda: app.run(host="0.0.0.0", port=8080)).start()
     if not TOKEN:
         print("❌ Missing token in .env!")
     else:
         client.run(TOKEN)
+    
+    import threading
+    threading.Thread(target=lambda: app.run(host="0.0.0.0", port=8080)).start()
