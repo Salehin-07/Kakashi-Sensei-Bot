@@ -6,14 +6,6 @@ import asyncio
 import aiohttp
 from datetime import datetime
 from flask import Flask, redirect, render_template_string
-import discord
-from discord.ext import commands
-from dotenv import load_dotenv
-import os
-import asyncio
-import aiohttp
-from datetime import datetime
-from flask import Flask, redirect, render_template_string
 
 # Flask setup
 app = Flask(__name__)
