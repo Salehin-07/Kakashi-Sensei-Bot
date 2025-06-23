@@ -947,24 +947,24 @@ def terms():
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-Intents setup
+#Intents setup
 
 intents = discord.Intents.default()
 intents.message_content = True
 client = commands.Bot(command_prefix='?', intents=intents)
 
-Globals
+#Globals
 
 check_task = None
 last_seen_titles = set()
 notification_channel = None
 
-Helper
+#Helper
 
 def get_channel_display(channel):
 return "📩 Direct Message" if isinstance(channel, discord.DMChannel) else channel.mention
 
-Anime fetcher
+#Anime fetcher
 
 async def fetch_recent_episodes():
 global last_seen_titles, notification_channel
@@ -1040,7 +1040,7 @@ async with aiohttp.ClientSession() as session:
         sent_message = await notification_channel.send(embed=embed)  
         # Store the message ID if needed for deletion later
 
-Check loop
+#Check loop
 
 async def check_loop():
 await fetch_recent_episodes()
@@ -1053,7 +1053,7 @@ break
 except:
 await asyncio.sleep(600)
 
-Events
+#Events
 
 @client.event
 async def on_ready():
@@ -1175,7 +1175,7 @@ else:
 print(f"Error: {error}")
 await ctx.send("❌ Something went wrong while processing the command.")
 
-Run
+#Run
 
 if name == "main":
 import threading
