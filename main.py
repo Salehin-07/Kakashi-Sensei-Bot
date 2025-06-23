@@ -10,46 +10,98 @@ from flask import Flask, redirect, render_template_string
 # Flask setup
 app = Flask(__name__)
 
-# Professional Flask routes
 @app.route('/')
 def home():
     return render_template_string('''
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Anime Notification Bot</title>
-            <style>
-                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-                .header { background-color: #5865F2; color: white; padding: 20px; border-radius: 10px; }
-                .content { margin-top: 20px; }
-                .btn { background-color: #5865F2; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; }
-                .footer { margin-top: 30px; font-size: 0.9em; color: #666; }
-            </style>
-        </head>
-        <body>
-            <div class="header">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kakashi Sensei Bot</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(to right, #23272A, #2C2F33);
+                color: #FFFFFF;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                max-width: 960px;
+                margin: auto;
+                padding: 40px 20px;
+            }
+            .card {
+                background: #2F3136;
+                border-radius: 12px;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+                padding: 30px;
+                margin-top: 20px;
+            }
+            h1 {
+                font-size: 2.6em;
+                margin-bottom: 0.4em;
+                color: #7289DA;
+            }
+            .btn {
+                display: inline-block;
+                background: #7289DA;
+                color: white;
+                padding: 12px 20px;
+                text-decoration: none;
+                border-radius: 6px;
+                font-weight: 600;
+                transition: background 0.3s;
+                margin-right: 10px;
+            }
+            .btn:hover {
+                background: #5b6eae;
+            }
+            ul {
+                list-style: none;
+                padding-left: 0;
+            }
+            li::before {
+                content: "✔️ ";
+                margin-right: 8px;
+                color: #43B581;
+            }
+            .footer {
+                margin-top: 40px;
+                font-size: 0.9em;
+                color: #aaa;
+                text-align: center;
+            }
+            @media (max-width: 600px) {
+                .btn { display: block; margin: 10px 0; width: 100%; text-align: center; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="card">
                 <h1>Kakashi Sensei Bot</h1>
-                <p>Get automatic updates about new anime episodes</p>
-            </div>
-            <div class="content">
-                <p>This bot tracks new anime episodes from MyAnimeList and notifies your Discord server when they're available.</p>
+                <p>Get automatic updates about new anime episodes from MyAnimeList!</p>
                 <a href="/invite" class="btn">Invite Bot to Server</a>
-                <a href="/terms" class="btn" style="margin-left: 10px;">Terms of Service</a>
-                <a href="/privacy" class="btn" style="margin-left: 10px;">Privacy Policy</a>
-                
-                <h2 style="margin-top: 30px;">Features</h2>
+                <a href="/terms" class="btn">Terms of Service</a>
+                <a href="/privacy" class="btn">Privacy Policy</a>
+
+                <h2 style="margin-top: 30px;">Bot Features</h2>
                 <ul>
                     <li>Automatic updates for currently airing anime</li>
-                    <li>Beautiful embed notifications</li>
-                    <li>Customizable notification channel</li>
+                    <li>Beautiful embed notifications in Discord</li>
+                    <li>Customizable notification channels</li>
                     <li>Hourly checks for new episodes</li>
                 </ul>
             </div>
             <div class="footer">
-                <p>Kakashi Sensei Bot. All anime data provided by <a href="https://myanimelist.net/">MyAnimeList</a>.</p>
+                <p>© Kakashi Sensei Bot · Powered by <a href="https://myanimelist.net/" style="color: #7289DA;">MyAnimeList</a></p>
             </div>
-        </body>
-        </html>
+        </div>
+    </body>
+    </html>
     ''')
 
 @app.route('/invite')
@@ -59,100 +111,62 @@ def invite():
 @app.route('/terms')
 def terms():
     return render_template_string('''
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Terms of Service</title>
-            <style>
-                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-                h1 { color: #5865F2; }
-                .footer { margin-top: 30px; font-size: 0.9em; color: #666; }
-            </style>
-        </head>
-        <body>
-            <h1>Terms of Service</h1>
-            <p>Last Updated: Jun 23, 2025</p>
-            
-            <h2>1. Acceptance of Terms</h2>
-            <p>By using the Anime Notification Bot ("Kakashi Sensei"), you agree to be bound by these Terms of Service.</p>
-            
-            <h2>2. Description of Service</h2>
-            <p>The Bot provides anime episode notifications by fetching data from MyAnimeList's API.</p>
-            
-            <h2>3. User Responsibilities</h2>
-            <p>You agree not to use the Bot for any unlawful purpose or in any way that might harm the service.</p>
-            
-            <h2>4. Limitation of Liability</h2>
-            <p>The Bot developers are not responsible for any damages resulting from use of the Bot.</p>
-            
-            <h2>5. Changes to Terms</h2>
-            <p>We reserve the right to modify these terms at any time. Continued use constitutes acceptance.</p>
-            
-            <div class="footer">
-                <p>Kakashi Sensei Bot</p>
-            </div>
-        </body>
-        </html>
+    <html>
+    <head><title>Terms of Service</title></head>
+    <body style="font-family: Arial; background: #2c2f33; color: white; padding: 40px; max-width: 800px; margin: auto;">
+        <h1 style="color: #7289DA;">Terms of Service</h1>
+        <p>Last Updated: June 23, 2025</p>
+        <h2>1. Acceptance of Terms</h2>
+        <p>By using the bot, you agree to follow these terms.</p>
+        <h2>2. Description of Service</h2>
+        <p>This bot sends anime episode updates from MyAnimeList using the Jikan API.</p>
+        <h2>3. User Responsibilities</h2>
+        <p>Don’t use the bot for illegal or abusive purposes.</p>
+        <h2>4. Limitation of Liability</h2>
+        <p>We’re not liable for damages caused by the bot’s use.</p>
+        <h2>5. Changes</h2>
+        <p>We can update these terms anytime.</p>
+    </body>
+    </html>
     ''')
 
 @app.route('/privacy')
 def privacy():
     return render_template_string('''
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Privacy Policy</title>
-            <style>
-                body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-                h1 { color: #5865F2; }
-                .footer { margin-top: 30px; font-size: 0.9em; color: #666; }
-            </style>
-        </head>
-        <body>
-            <h1>Privacy Policy</h1>
-            <p>Last Updated: June 24, 2025</p>
-            
-            <h2>1. Information Collected</h2>
-            <p>The Bot stores only the necessary Discord channel IDs for notification purposes.</p>
-            
-            <h2>2. Use of Information</h2>
-            <p>Channel IDs are used solely to send anime notifications to your specified channel.</p>
-            
-            <h2>3. Data Storage</h2>
-            <p>Data is stored only while the Bot is active and is not persisted long-term.</p>
-            
-            <h2>4. Third-Party Services</h2>
-            <p>The Bot uses MyAnimeList's API but does not share your data with them.</p>
-            
-            <h2>5. Changes to Policy</h2>
-            <p>We may update this policy. Continued use constitutes acceptance.</p>
-            
-            <div class="footer">
-                <p>Kakashi Sensei Bot</p>
-            </div>
-        </body>
-        </html>
+    <html>
+    <head><title>Privacy Policy</title></head>
+    <body style="font-family: Arial; background: #2c2f33; color: white; padding: 40px; max-width: 800px; margin: auto;">
+        <h1 style="color: #7289DA;">Privacy Policy</h1>
+        <p>Last Updated: June 24, 2025</p>
+        <h2>1. What We Collect</h2>
+        <p>Only the Discord channel IDs where updates are sent.</p>
+        <h2>2. Why We Collect</h2>
+        <p>So we can send updates to your selected channels.</p>
+        <h2>3. Storage</h2>
+        <p>Data isn’t stored long-term or shared.</p>
+        <h2>4. Third-Party</h2>
+        <p>We use MyAnimeList’s public API via Jikan.</p>
+        <h2>5. Updates</h2>
+        <p>We can change this policy anytime.</p>
+    </body>
+    </html>
     ''')
 
-# Load .env
+# Load env and bot setup
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-
-# Intents setup
 intents = discord.Intents.default()
 intents.message_content = True
-client = commands.Bot(command_prefix='?', intents=intents)  # Changed prefix to %
+client = commands.Bot(command_prefix='?', intents=intents)
 
 # Globals
 check_task = None
 last_seen_titles = set()
 notification_channel = None
 
-# Helper
 def get_channel_display(channel):
     return "📩 Direct Message" if isinstance(channel, discord.DMChannel) else channel.mention
 
-# Anime fetcher
 async def fetch_recent_episodes():
     global last_seen_titles, notification_channel
 
@@ -163,38 +177,30 @@ async def fetch_recent_episodes():
 
     async with aiohttp.ClientSession() as session:
         new_episodes = []
-
         for api in apis:
             try:
                 async with session.get(api['url'], timeout=15) as res:
                     if res.status != 200:
                         continue
-
                     data = await res.json()
-                    anime_list = data.get(api['key'], [])
-                    for anime in anime_list[:10]:
+                    for anime in data.get(api['key'], [])[:10]:
                         title = anime.get('title', 'Unknown')
-                        title_english = anime.get('title_english') or title
+                        title_en = anime.get('title_english') or title
                         mal_id = anime.get('mal_id')
                         unique_id = f"{mal_id}_{title}"
-
                         if unique_id not in last_seen_titles:
                             new_episodes.append({
-                                'title': title_english,
-                                'title_jp': title,
+                                'title': title_en,
                                 'mal_id': mal_id,
-                                'score': anime.get('score'),
-                                'status': anime.get('status'),
-                                'aired_from': anime.get('aired', {}).get('from'),
-                                'episodes': anime.get('episodes'),
                                 'url': anime.get('url'),
                                 'image': anime.get('images', {}).get('jpg', {}).get('image_url', ''),
-                                'synopsis': anime.get('synopsis', '')[:200] + '...' if anime.get('synopsis') else 'No synopsis available'
+                                'synopsis': anime.get('synopsis', '')[:200] + '...' if anime.get('synopsis') else 'No synopsis available',
+                                'status': anime.get('status'),
+                                'score': anime.get('score'),
+                                'episodes': anime.get('episodes'),
                             })
                             last_seen_titles.add(unique_id)
-
                 await asyncio.sleep(1)
-
             except:
                 continue
 
@@ -205,29 +211,20 @@ async def fetch_recent_episodes():
                 description="Recently updated anime from MyAnimeList",
                 timestamp=datetime.utcnow()
             )
-
             for anime in new_episodes[:5]:
                 value = f"**Status:** {anime['status']}\n"
-                if anime['score']:
-                    value += f"**Score:** {anime['score']}/10\n"
-                if anime['episodes']:
-                    value += f"**Episodes:** {anime['episodes']}\n"
+                if anime['score']: value += f"**Score:** {anime['score']}/10\n"
+                if anime['episodes']: value += f"**Episodes:** {anime['episodes']}\n"
                 value += f"**Synopsis:** {anime['synopsis']}\n"
                 value += f"[View on MAL]({anime['url']})"
                 embed.add_field(name=f"📺 {anime['title']}", value=value, inline=False)
-
             if len(new_episodes) > 5:
-                embed.add_field(name="And more...", value=f"{len(new_episodes) - 5} additional anime updates!", inline=False)
-
+                embed.add_field(name="And more...", value=f"{len(new_episodes) - 5} more updates!", inline=False)
             embed.set_footer(text="Powered by Jikan API (MyAnimeList)")
-
             if new_episodes[0]['image']:
                 embed.set_thumbnail(url=new_episodes[0]['image'])
+            await notification_channel.send(embed=embed)
 
-            sent_message = await notification_channel.send(embed=embed)
-            # Store the message ID if needed for deletion later
-
-# Check loop
 async def check_loop():
     await fetch_recent_episodes()
     while True:
@@ -239,82 +236,43 @@ async def check_loop():
         except:
             await asyncio.sleep(600)
 
-# Events
 @client.event
 async def on_ready():
     print(f'✅ {client.user} is online!')
     print(f'📊 Connected to {len(client.guilds)} server(s)')
 
-# Commands
-@client.command()
-async def delete(ctx, num_messages: int = None):
-    """Delete bot's messages. Optional: specify number of messages to delete."""
-    def is_bot_message(msg):
-        return msg.author == client.user
-    
-    channel = ctx.channel
-    
-    if num_messages is None:
-        # Delete all bot messages
-        deleted = await channel.purge(limit=None, check=is_bot_message)
-        await ctx.send(f"🗑️ Deleted all {len(deleted)} of my messages in this channel.", delete_after=5)
-    else:
-        # Delete specific number of messages
-        if num_messages <= 0:
-            await ctx.send("❌ Please specify a positive number of messages to delete.", delete_after=5)
-            return
-            
-        deleted = await channel.purge(limit=num_messages, check=is_bot_message)
-        await ctx.send(f"🗑️ Deleted {len(deleted)} of my messages in this channel.", delete_after=5)
-
 @client.command()
 async def start(ctx):
     global check_task, notification_channel
     if check_task and not check_task.done():
-        await ctx.send("❌ Anime checker is already running!")
+        await ctx.send("❌ Already running!")
         return
-
     notification_channel = ctx.channel
     check_task = asyncio.create_task(check_loop())
-
-    embed = discord.Embed(
-        title="✅ Anime Checker Started!",
-        description="Using Jikan API (MyAnimeList) for reliable anime updates",
+    await ctx.send(embed=discord.Embed(
+        title="✅ Started!",
+        description=f"Updates will be posted in {get_channel_display(ctx.channel)}",
         color=0x00ff00
-    )
-    embed.add_field(name="📍 Channel Set", value=get_channel_display(ctx.channel), inline=False)
-    embed.add_field(name="⏰ Check Interval", value="Every 60 minutes (respects API rate limits)", inline=False)
-    await ctx.send(embed=embed)
+    ))
 
 @client.command()
 async def stop(ctx):
     global check_task
     if check_task and not check_task.done():
         check_task.cancel()
-        try:
-            await check_task
-        except asyncio.CancelledError:
-            pass
-        await ctx.send("🛑 Anime release checker stopped.")
+        try: await check_task
+        except asyncio.CancelledError: pass
+        await ctx.send("🛑 Stopped!")
     else:
-        await ctx.send("❌ Anime checker is not running!")
+        await ctx.send("❌ Not running!")
 
 @client.command()
 async def status(ctx):
-    global check_task, notification_channel
-    embed = discord.Embed(title="📊 Bot Status", color=0x0099ff)
-
-    embed.add_field(name="🟢 Checker Status" if check_task and not check_task.done() else "🔴 Checker Status",
-                    value="Running" if check_task and not check_task.done() else "Stopped",
-                    inline=True)
-
-    embed.add_field(name="📍 Notification Channel",
-                    value=get_channel_display(notification_channel) if notification_channel else "Not set",
-                    inline=True)
-
-    embed.add_field(name="📈 Anime Tracked", value=len(last_seen_titles), inline=True)
-    embed.add_field(name="🌐 API Source", value="Jikan (MyAnimeList)", inline=True)
-
+    embed = discord.Embed(title="📊 Status", color=0x0099ff)
+    embed.add_field(name="Checker", value="🟢 Running" if check_task and not check_task.done() else "🔴 Stopped", inline=True)
+    embed.add_field(name="Channel", value=get_channel_display(notification_channel) if notification_channel else "Not set", inline=True)
+    embed.add_field(name="Tracked", value=str(len(last_seen_titles)), inline=True)
+    embed.add_field(name="Source", value="Jikan (MyAnimeList)", inline=True)
     await ctx.send(embed=embed)
 
 @client.command()
@@ -323,47 +281,35 @@ async def setchanel(ctx):
     notification_channel = ctx.channel
     await ctx.send(embed=discord.Embed(
         title="✅ Channel Updated!",
-        description=f"Notifications will now be sent to {get_channel_display(ctx.channel)}",
+        description=f"Now using {get_channel_display(ctx.channel)}",
         color=0x00ff00
     ))
 
 @client.command()
-async def test(ctx):
-    await ctx.send("🔍 Testing API connection...")
-    await fetch_recent_episodes()
-    await ctx.send("✅ Test completed! Check console for results.")
-
-@client.command()
 async def clear(ctx):
-    global last_seen_titles
     count = len(last_seen_titles)
     last_seen_titles.clear()
-    await ctx.send(f"🗑️ Cleared {count} tracked anime from cache.")
+    await ctx.send(f"🧹 Cleared {count} cached anime.")
 
 @client.command()
 async def hello(ctx):
-    if isinstance(ctx.channel, discord.DMChannel):
-        await ctx.send("👋 Hello! You're messaging me in DMs.")
-    else:
-        await ctx.send("👋 Hello from the server!")
+    await ctx.send("👋 Hello! I'm Kakashi Sensei Bot.")
 
-# Error handler
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        await ctx.send("❌ Unknown command! Use `%help` to see available commands.")
+        await ctx.send("❌ Unknown command. Try `?help`.")
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("❌ Missing arguments! Check the command usage.")
+        await ctx.send("⚠️ Missing argument.")
     else:
-        print(f"Error: {error}")
-        await ctx.send("❌ Something went wrong while processing the command.")
+        await ctx.send("⚠️ Something went wrong.")
+        print(error)
 
-# Run
+# Run app + bot
 if __name__ == "__main__":
     import threading
     threading.Thread(target=lambda: app.run(host="0.0.0.0", port=8080)).start()
-
     if not TOKEN:
-        print("❌ Discord token not found! Set DISCORD_TOKEN in .env")
+        print("❌ Missing token in .env!")
     else:
         client.run(TOKEN)
