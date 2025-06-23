@@ -754,58 +754,95 @@ def get_channel_display(channel):
     return "📩 Direct Message" if isinstance(channel, discord.DMChannel) else channel.mention
 
 # Anime fetcher
-            
-            if notification_channel:
-                # Create embed with better formatting
-                embed = discord.Embed(
-                    title="🎉 New Anime Updates!",
-                    color=0x00ff00,
-                    description="Recently updated anime from MyAnimeList",
-                    timestamp=datetime.utcnow()
-                )
-                
-                for anime in new_episodes[:5]:  # Limit to 5 to avoid spam
-                    field_value = f"**Status:** {anime['status']}\n"
+async def fetch_recent_episodes():
+    global last_seen_titles
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get("https://api.jikan.moe/v4/seasons/now") as response:
+                if response.status == 200:
+                    data = await response.json()
+                    current_anime = data['data']
                     
-                    if anime['score']:
-                        field_value += f"**Score:** {anime['score']}/10\n"
+                    new_episodes = []
+                    current_titles = set()
                     
-                    if anime['episodes']:
-                        field_value += f"**Episodes:** {anime['episodes']}\n"
+                    for anime in current_anime:
+                        title = anime['title']
+                        current_titles.add(title)
+                        
+                        if title not in last_seen_titles:
+                            new_episodes.append({
+                                'title': title,
+                                'url': anime['url'],
+                                'image': anime['images']['jpg']['image_url'] if anime.get('images') else None,
+                                'score': anime.get('score'),
+                                'episodes': anime.get('episodes'),
+                                'status': anime.get('status', 'Unknown'),
+                                'synopsis': anime.get('synopsis', 'No synopsis available.')[:200] + "..." if anime.get('synopsis') and len(anime.get('synopsis', '')) > 200 else anime.get('synopsis', 'No synopsis available.')
+                            })
                     
-                    field_value += f"**Synopsis:** {anime['synopsis']}\n"
-                    field_value += f"[View on MAL]({anime['url']})"
+                    last_seen_titles.update(current_titles)
                     
-                    embed.add_field(
-                        name=f"📺 {anime['title']}",
-                        value=field_value,
-                        inline=False
-                    )
-                
-                if len(new_episodes) > 5:
-                    embed.add_field(
-                        name="And more...",
-                        value=f"{len(new_episodes) - 5} additional anime updates!",
-                        inline=False
-                    )
-                
-                embed.set_footer(text="Powered by Jikan API (MyAnimeList)")
-                
-                # Set thumbnail if available
-                if new_episodes[0]['image']:
-                    embed.set_thumbnail(url=new_episodes[0]['image'])
-                
-                await notification_channel.send(embed=embed)
-            
-            # Console output
-            for anime in new_episodes:
-                print(f"📺 {anime['title']}")
-                print(f"🔗 {anime['url']}")
-                print(f"⭐ Score: {anime['score']}/10" if anime['score'] else "⭐ Score: Not rated")
-                print("-" * 50)
-        
-        else:
-            print("😴 No new anime updates found")
+                    if new_episodes:
+                        print(f"🎬 Found {len(new_episodes)} new anime updates!")
+                        
+                        if notification_channel:
+                            # Create embed with better formatting
+                            embed = discord.Embed(
+                                title="🎉 New Anime Updates!",
+                                color=0x00ff00,
+                                description="Recently updated anime from MyAnimeList",
+                                timestamp=datetime.utcnow()
+                            )
+                            
+                            for anime in new_episodes[:5]:  # Limit to 5 to avoid spam
+                                field_value = f"**Status:** {anime['status']}\n"
+                                
+                                if anime['score']:
+                                    field_value += f"**Score:** {anime['score']}/10\n"
+                                
+                                if anime['episodes']:
+                                    field_value += f"**Episodes:** {anime['episodes']}\n"
+                                
+                                field_value += f"**Synopsis:** {anime['synopsis']}\n"
+                                field_value += f"[View on MAL]({anime['url']})"
+                                
+                                embed.add_field(
+                                    name=f"📺 {anime['title']}",
+                                    value=field_value,
+                                    inline=False
+                                )
+                            
+                            if len(new_episodes) > 5:
+                                embed.add_field(
+                                    name="And more...",
+                                    value=f"{len(new_episodes) - 5} additional anime updates!",
+                                    inline=False
+                                )
+                            
+                            embed.set_footer(text="Powered by Jikan API (MyAnimeList)")
+                            
+                            # Set thumbnail if available
+                            if new_episodes[0]['image']:
+                                embed.set_thumbnail(url=new_episodes[0]['image'])
+                            
+                            await notification_channel.send(embed=embed)
+                        
+                        # Console output
+                        for anime in new_episodes:
+                            print(f"📺 {anime['title']}")
+                            print(f"🔗 {anime['url']}")
+                            print(f"⭐ Score: {anime['score']}/10" if anime['score'] else "⭐ Score: Not rated")
+                            print("-" * 50)
+                    
+                    else:
+                        print("😴 No new anime updates found")
+                        
+                else:
+                    print(f"❌ API request failed with status: {response.status}")
+                    
+    except Exception as e:
+        print(f"❌ Error fetching anime data: {e}")
 
 # Check loop
 async def check_loop():
@@ -863,11 +900,13 @@ async def delete(ctx, num_messages: int = None):
         # Handle guild channels
         if num_messages is None:
             deleted = await channel.purge(limit=None, check=is_bot_message)
+            await ctx.send(f"🗑️ Deleted {len(deleted)} of my messages.", delete_after=5)
         else:
             if num_messages <= 0:
                 await ctx.send("❌ Please specify a positive number of messages to delete.", delete_after=5)
                 return
             deleted = await channel.purge(limit=num_messages, check=is_bot_message)
+            await ctx.send(f"🗑️ Deleted {len(deleted)} of my messages.", delete_after=5)
 
 @client.command()
 async def start(ctx):
@@ -946,102 +985,14 @@ async def clear(ctx):
 async def hello(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
         await ctx.send("👋 Hello! You're messaging me in DMs.")
-    else:@client.command()
-async def start(ctx):
-    global check_task, notification_channel
-    
-    if check_task and not check_task.done():
-        await ctx.send("❌ Anime checker is already running!")
-        return
-    
-    notification_channel = ctx.channel
-    check_task = asyncio.create_task(check_loop())
-    
-    embed = discord.Embed(
-        title="✅ Anime Checker Started!",
-        description="Using Jikan API (MyAnimeList) for reliable anime updates",
-        color=0x00ff00
-    )
-    embed.add_field(
-        name="📍 Channel Set",
-        value=f"Notifications will be sent to {ctx.channel.mention}",
-        inline=False
-    )
-    embed.add_field(
-        name="⏰ Check Interval",
-        value="Every 60 minutes (respects API rate limits)",
-        inline=False
-    )
-    
-    await ctx.send(embed=embed)
-
-@client.command()
-async def stop(ctx):
-    global check_task
-    
-    if check_task and not check_task.done():
-        check_task.cancel()
-        try:
-            await check_task
-        except asyncio.CancelledError:
-            pass
-        await ctx.send("🛑 Anime release checker stopped.")
     else:
-        await ctx.send("❌ Anime checker is not running!")
-
-@client.command()
-async def status(ctx):
-    global check_task, notification_channel
-    
-    embed = discord.Embed(title="📊 Bot Status", color=0x0099ff)
-    
-    if check_task and not check_task.done():
-        embed.add_field(name="🟢 Checker Status", value="Running", inline=True)
-    else:
-        embed.add_field(name="🔴 Checker Status", value="Stopped", inline=True)
-    
-    if notification_channel:
-        embed.add_field(name="📍 Notification Channel", value=notification_channel.mention, inline=True)
-    else:
-        embed.add_field(name="📍 Notification Channel", value="Not set", inline=True)
-    
-    embed.add_field(name="📈 Anime Tracked", value=len(last_seen_titles), inline=True)
-    embed.add_field(name="🌐 API Source", value="Jikan (MyAnimeList)", inline=True)
-    
-    await ctx.send(embed=embed)
-
-@client.command()
-async def setchannel(ctx):
-    global notification_channel
-    notification_channel = ctx.channel
-    
-    embed = discord.Embed(
-        title="✅ Channel Updated!",
-        description=f"Notifications will now be sent to {ctx.channel.mention}",
-        color=0x00ff00
-    )
-    await ctx.send(embed=embed)
-
-@client.command()
-async def test(ctx):
-    """Test the API connection"""
-    await ctx.send("🔍 Testing API connection...")
-    await fetch_recent_episodes()
-    await ctx.send("✅ Test completed! Check console for results.")
-
-@client.command()
-async def clear(ctx):
-    """Clear the tracking cache"""
-    global last_seen_titles
-    count = len(last_seen_titles)
-    last_seen_titles.clear()
-    await ctx.send(f"🗑️ Cleared {count} tracked anime from cache. Next check will show all current anime as 'new'.")
+        await ctx.send(f"👋 Hello! I'm active in {ctx.guild.name}!")
 
 # Error handling
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        await ctx.send("❌ Unknown command! Use `&help` to see available commands.")
+        await ctx.send("❌ Unknown command! Use `?help` to see available commands.")
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.send("❌ Missing required arguments! Check the command usage.")
     else:
