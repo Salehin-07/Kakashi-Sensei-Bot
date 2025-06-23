@@ -97,7 +97,7 @@ def home():
                 </ul>
             </div>
             <div class="footer">
-                <p>© Kakashi Sensei Bot · Powered by <a href="https://myanimelist.net/" style="color: #7289DA;">MyAnimeList</a></p>
+                <p> Kakashi Sensei Bot · Powered by <a href="https://myanimelist.net/" style="color: #7289DA;">MyAnimeList</a></p>
             </div>
         </div>
     </body>
@@ -307,10 +307,12 @@ async def on_command_error(ctx, error):
 
 # Run app + bot
 if __name__ == "__main__":
+    import threading
+    threading.Thread(target=lambda: app.run(host="0.0.0.0", port=8080)).start()
+    
     if not TOKEN:
         print("❌ Missing token in .env!")
     else:
         client.run(TOKEN)
     
-    import threading
-    threading.Thread(target=lambda: app.run(host="0.0.0.0", port=8080)).start()
+    
